@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{16A07605-7093-4720-9FF5-67B5EF6519A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidly.Api", "src\Skidly.Api\Skidly.Api.csproj", "{A5E1EDA3-8424-44BB-8462-F01875E08FCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidly.Application", "src\Skidly.Application\Skidly.Application.csproj", "{D1FBA6F2-7EC9-4D28-9523-1D18777B67F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidly.Domain", "src\Skidly.Domain\Skidly.Domain.csproj", "{738B410D-CB0F-48E3-84E0-465B50E98308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidly.Infrastructure", "src\Skidly.Infrastructure\Skidly.Infrastructure.csproj", "{4CC7EF7A-C99D-407C-8597-E5A728896BC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidly.Tests", "src\Skidly.Tests\Skidly.Tests.csproj", "{D0F0489A-A0F8-4E99-A523-20138CFE8D19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidly.Shared.Abstractions", "src\Skidly.Shared.Abstractions\Skidly.Shared.Abstractions.csproj", "{E1DA76EB-C68E-4CAD-8C19-598E5F4DA40B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5E1EDA3-8424-44BB-8462-F01875E08FCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5E1EDA3-8424-44BB-8462-F01875E08FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5E1EDA3-8424-44BB-8462-F01875E08FCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5E1EDA3-8424-44BB-8462-F01875E08FCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1FBA6F2-7EC9-4D28-9523-1D18777B67F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1FBA6F2-7EC9-4D28-9523-1D18777B67F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1FBA6F2-7EC9-4D28-9523-1D18777B67F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1FBA6F2-7EC9-4D28-9523-1D18777B67F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{738B410D-CB0F-48E3-84E0-465B50E98308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{738B410D-CB0F-48E3-84E0-465B50E98308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{738B410D-CB0F-48E3-84E0-465B50E98308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{738B410D-CB0F-48E3-84E0-465B50E98308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CC7EF7A-C99D-407C-8597-E5A728896BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CC7EF7A-C99D-407C-8597-E5A728896BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CC7EF7A-C99D-407C-8597-E5A728896BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CC7EF7A-C99D-407C-8597-E5A728896BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0F0489A-A0F8-4E99-A523-20138CFE8D19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0F0489A-A0F8-4E99-A523-20138CFE8D19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0F0489A-A0F8-4E99-A523-20138CFE8D19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0F0489A-A0F8-4E99-A523-20138CFE8D19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1DA76EB-C68E-4CAD-8C19-598E5F4DA40B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1DA76EB-C68E-4CAD-8C19-598E5F4DA40B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1DA76EB-C68E-4CAD-8C19-598E5F4DA40B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1DA76EB-C68E-4CAD-8C19-598E5F4DA40B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A5E1EDA3-8424-44BB-8462-F01875E08FCF} = {16A07605-7093-4720-9FF5-67B5EF6519A5}
+		{D1FBA6F2-7EC9-4D28-9523-1D18777B67F5} = {16A07605-7093-4720-9FF5-67B5EF6519A5}
+		{738B410D-CB0F-48E3-84E0-465B50E98308} = {16A07605-7093-4720-9FF5-67B5EF6519A5}
+		{4CC7EF7A-C99D-407C-8597-E5A728896BC8} = {16A07605-7093-4720-9FF5-67B5EF6519A5}
+		{D0F0489A-A0F8-4E99-A523-20138CFE8D19} = {16A07605-7093-4720-9FF5-67B5EF6519A5}
+		{E1DA76EB-C68E-4CAD-8C19-598E5F4DA40B} = {16A07605-7093-4720-9FF5-67B5EF6519A5}
+	EndGlobalSection
+EndGlobal
