@@ -2,7 +2,16 @@
 
 public abstract class Entity : IEquatable<Entity>
 {
+    private readonly List<DomainEvent> _events = new();
+    
     public Guid Id { get; init; }
+    
+    public IReadOnlyCollection<DomainEvent> Events => _events;
+
+    protected void AddEvent(DomainEvent domainEvent) 
+        => _events.Add(domainEvent);
+
+    public void ClearEvents() => _events.Clear(); 
 
     public override bool Equals(object? obj)
     {
