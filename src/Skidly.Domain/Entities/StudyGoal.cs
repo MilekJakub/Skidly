@@ -1,4 +1,4 @@
-﻿using Skidly.Domain.Enums;
+﻿using Skidly.Domain.Constants;
 using Skidly.Domain.Events;
 using Skidly.Domain.Exceptions;
 using Skidly.Domain.ValueObjects;
@@ -6,9 +6,9 @@ using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.Entities;
 
-public sealed class StudyGoal : Entity
+public sealed class StudyGoal : Entity, IAggregateRoot
 {
-    private List<Pomodoro> _pomodoros = new();
+    private readonly List<Pomodoro> _pomodoros = new();
 
     private StudyGoal()
     {
@@ -20,7 +20,7 @@ public sealed class StudyGoal : Entity
         GoalDescription description,
         GoalCategory category,
         GoalPriority priority,
-        TimeSpan expectedTimeToLearn,
+        TimeSpan expectedLearningTime,
         Deadline deadline,
         bool isAchieved)
     {
@@ -28,7 +28,7 @@ public sealed class StudyGoal : Entity
         Description = description;
         Category = category;
         Priority = priority;
-        ExpectedTimeToLearn  ??= expectedTimeToLearn;
+        ExpectedLearningTime  ??= expectedLearningTime;
         Deadline ??= deadline;
         IsAchieved = isAchieved;
         
@@ -39,9 +39,11 @@ public sealed class StudyGoal : Entity
     public GoalDescription Description { get; private set; }
     public GoalCategory Category { get; private set; }
     public byte Priority { get; private set; }
-    public TimeSpan? ExpectedTimeToLearn { get; private set; }
+    public TimeSpan? ExpectedLearningTime { get; private set; }
     public Deadline? Deadline { get; private set; }
     public bool IsAchieved { get; private set; }
+    public IReadOnlyCollection<Pomodoro> Pomodoros => _pomodoros;
+    
     public TimeSpan TimeSpentStudying
     {
         get
@@ -82,8 +84,8 @@ public sealed class StudyGoal : Entity
 
     internal void ChangeExpectedTimeToLearn(TimeSpan expectedTime)
     {
-        ExpectedTimeToLearn = expectedTime;
-        AddEvent(new GoalExpectedTimeToLearnUpdatedEvent(this, ExpectedTimeToLearn.Value));
+        ExpectedLearningTime = expectedTime;
+        AddEvent(new GoalExpectedTimeToLearnUpdatedEvent(this, ExpectedLearningTime.Value));
     }
 
     internal void ChangeDeadline(Deadline deadline)

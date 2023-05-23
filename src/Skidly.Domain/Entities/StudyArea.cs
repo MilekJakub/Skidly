@@ -28,7 +28,7 @@ public sealed class StudyArea : Entity, IAggregateRoot
     public AreaDescription Description { get; private set; }
     public IReadOnlyCollection<StudyGoal> Goals => _goals;
 
-    public TimeSpan TotalStudyingTime
+    public TimeSpan TimeSpentStudying
     {
         get
         {

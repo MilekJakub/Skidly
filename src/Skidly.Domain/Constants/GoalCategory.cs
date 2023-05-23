@@ -1,4 +1,4 @@
-﻿namespace Skidly.Domain.Enums;
+﻿namespace Skidly.Domain.Constants;
 
 public enum GoalCategory
 {

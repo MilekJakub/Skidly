@@ -23,7 +23,7 @@ public sealed class Pomodoro : Entity
     public TimeSpan ExpectedDuration { get; private set; }
     public TimeSpan Duration { get; private set; }
     public DateTime? StartTime { get; private set; }
-    public DateTime? EndTime { get; private set; }
+    public DateTime? FinishTime { get; private set; }
     public bool IsFinished { get; private set; }
 
     public void ChangeTopic(PomodoroTopic topic)
@@ -52,8 +52,8 @@ public sealed class Pomodoro : Entity
 
     public void SetEndTime(DateTime endTime)
     {
-        EndTime = endTime;
+        FinishTime = endTime;
         IsFinished = true;
-        AddEvent(new PomodoroEndTimeSetEvent(this, EndTime.Value));
+        AddEvent(new PomodoroEndTimeSetEvent(this, FinishTime.Value));
     }
 }

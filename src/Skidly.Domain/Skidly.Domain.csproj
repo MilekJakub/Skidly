@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Skidly.Shared.Abstractions\Skidly.Shared.Abstractions.csproj" />
   </ItemGroup>
 

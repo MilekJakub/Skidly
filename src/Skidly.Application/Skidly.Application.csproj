@@ -10,4 +10,17 @@
     <ProjectReference Include="..\Skidly.Domain\Skidly.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+    <Folder Include="Pomodoros\" />
+    <Folder Include="Services\" />
+    <Folder Include="StudyAreas\" />
+    <Folder Include="StudyGoals\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="7.0.5" />
+  </ItemGroup>
+
 </Project>
