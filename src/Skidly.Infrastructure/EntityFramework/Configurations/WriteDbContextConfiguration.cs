@@ -1,14 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Skidly.Domain.Aggregates;
 using Skidly.Domain.Constants;
 using Skidly.Domain.Entities;
 using Skidly.Domain.ValueObjects;
+using Skidly.Domain.ValueObjects.ApplicationUser;
+using Skidly.Domain.ValueObjects.Pomodoro;
+using Skidly.Domain.ValueObjects.Role;
+using Skidly.Domain.ValueObjects.StudyArea;
+using Skidly.Domain.ValueObjects.StudyGoal;
 
 namespace Skidly.Infrastructure.EntityFramework.Configurations;
 
 public class WriteDbContextConfiguration
     : IEntityTypeConfiguration<ApplicationUser>,
+      IEntityTypeConfiguration<Role>,
       IEntityTypeConfiguration<StudyArea>,
       IEntityTypeConfiguration<StudyGoal>,
       IEntityTypeConfiguration<Pomodoro>
@@ -22,6 +29,11 @@ public class WriteDbContextConfiguration
                 username => username.ToString(),
                 username => new Username(username));
         
+        var passwordConverter = 
+            new ValueConverter<PasswordHash, string>(
+                hash => hash.ToString(),
+                hash => new PasswordHash(hash));
+        
         var emailConverter =
             new ValueConverter<EmailAddress, string>(
                 email => email.ToString(),
@@ -33,7 +45,7 @@ public class WriteDbContextConfiguration
                 fullname => fullname != null ? new Fullname(fullname) : null);
         
         var dateOfBirthConverter =
-            new ValueConverter<DateOfBirth?, DateOnly?>(
+            new ValueConverter<DateOfBirth?, DateTime?>(
                 dateOfBirth => dateOfBirth != null ? dateOfBirth.Value : null,
                 dateOfBirth => dateOfBirth != null ? new DateOfBirth(dateOfBirth.ToString()!) : null);
 
@@ -51,6 +63,11 @@ public class WriteDbContextConfiguration
             .HasConversion(usernameConverter)
             .HasColumnName("Username");
 
+        builder
+            .Property(u => u.PasswordHash)
+            .HasConversion(passwordConverter)
+            .HasColumnName("PasswordHash");
+        
         builder
             .Property(u => u.Email)
             .HasConversion(emailConverter)
@@ -70,8 +87,31 @@ public class WriteDbContextConfiguration
             .Property(u => u.Country)
             .HasConversion(countryConverter)
             .HasColumnName("Country");
+
+        builder
+            .HasOne(u => u.Role)
+            .WithMany(r => r.Users);
     }
 
+    public void Configure(EntityTypeBuilder<Role> builder)
+    {
+        builder.HasKey(r => r.Id);
+
+        builder
+            .Property(u => u.Id)
+            .HasConversion(id => id.ToString(), id => Guid.Parse(id));
+        
+        var nameConverter =
+            new ValueConverter<RoleName, string>(
+                name => name.ToString(),
+                name => new RoleName(name));
+
+        builder
+            .Property(r => r.Name)
+            .HasConversion(nameConverter)
+            .HasColumnName("Name");
+    }
+    
     public void Configure(EntityTypeBuilder<StudyArea> builder)
     {
         var nameConverter =
@@ -107,6 +147,10 @@ public class WriteDbContextConfiguration
             .Property(sa => sa.TimeSpentStudying)
             .HasConversion(timeSpentStudyingConverter)
             .HasColumnName("TimeSpentStudying");
+
+        builder
+            .HasOne(sa => sa.User)
+            .WithMany(u => u.StudyAreas);
     }
 
     public void Configure(EntityTypeBuilder<StudyGoal> builder)
@@ -174,6 +218,10 @@ public class WriteDbContextConfiguration
             .Property(sg => sg.TimeSpentStudying)
             .HasConversion(timeSpentStudyingConverter)
             .HasColumnName("TimeSpentStudying");
+
+        builder
+            .HasOne(sg => sg.Area)
+            .WithMany(sa => sa.Goals);
     }
 
     public void Configure(EntityTypeBuilder<Pomodoro> builder)
@@ -207,7 +255,7 @@ public class WriteDbContextConfiguration
             .Property(p => p.ExpectedDuration)
             .HasConversion(expectedDurationConverter)
             .HasColumnName("ExpectedDuration");
-        
+
         builder
             .Property(p => p.Duration)
             .HasConversion(durationConverter)

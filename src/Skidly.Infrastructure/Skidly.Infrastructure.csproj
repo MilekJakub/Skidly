@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <NoWarn>8618</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,13 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EntityFramework\Repositories\" />
     <Folder Include="EntityFramework\Services\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
   </ItemGroup>
 

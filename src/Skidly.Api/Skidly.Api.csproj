@@ -4,22 +4,24 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <NoWarn>8618</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Skidly.Application\Skidly.Application.csproj" />
     <ProjectReference Include="..\Skidly.Infrastructure\Skidly.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Requests\" />
   </ItemGroup>
 
 </Project>

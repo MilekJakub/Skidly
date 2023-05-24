@@ -11,4 +11,9 @@
     <ProjectReference Include="..\Skidly.Shared.Abstractions\Skidly.Shared.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Events\ApplicationUser\" />
+    <Folder Include="Events\Role\" />
+  </ItemGroup>
+
 </Project>

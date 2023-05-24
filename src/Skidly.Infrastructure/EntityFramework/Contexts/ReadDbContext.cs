@@ -10,7 +10,7 @@ public class ReadDbContext : DbContext
     {
     }
 
-    public DbSet<UserReadModel> Users { get; set; }
+    public DbSet<ApplicationUserReadModel> Users { get; set; }
     public DbSet<StudyAreaReadModel> StudyAreas { get; set; }
     public DbSet<StudyGoalReadModel> StudyGoals { get; set; }
     public DbSet<PomodoroReadModel> Pomodoros { get; set; }
@@ -19,7 +19,8 @@ public class ReadDbContext : DbContext
     {
         var configuration = new ReadDbContextConfiguration();
 
-        modelBuilder.ApplyConfiguration<UserReadModel>(configuration);
+        modelBuilder.ApplyConfiguration<ApplicationUserReadModel>(configuration);
+        modelBuilder.ApplyConfiguration<RoleReadModel>(configuration);
         modelBuilder.ApplyConfiguration<StudyAreaReadModel>(configuration);
         modelBuilder.ApplyConfiguration<StudyGoalReadModel>(configuration);
         modelBuilder.ApplyConfiguration<PomodoroReadModel>(configuration);

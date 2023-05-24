@@ -2,8 +2,7 @@
 
 public class PomodoroReadModel
 {
-    // topic expectedDuration duration startTime finishTime isFinished
-    public string Id { get; set; }
+    public Guid Id { get; set; }
     public string Topic { get; private set; }
     public string ExpectedDuration { get; private set; }
     public string Duration { get; private set; }

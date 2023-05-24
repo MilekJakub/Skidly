@@ -5,20 +5,27 @@ using Skidly.Infrastructure.EntityFramework.Models;
 namespace Skidly.Infrastructure.EntityFramework.Configurations;
 
 public class ReadDbContextConfiguration
-    : IEntityTypeConfiguration<UserReadModel>, 
+    : IEntityTypeConfiguration<ApplicationUserReadModel>, 
+      IEntityTypeConfiguration<RoleReadModel>,
       IEntityTypeConfiguration<StudyAreaReadModel>,
       IEntityTypeConfiguration<StudyGoalReadModel>,
       IEntityTypeConfiguration<PomodoroReadModel>
 {
-    public void Configure(EntityTypeBuilder<UserReadModel> builder)
+    public void Configure(EntityTypeBuilder<ApplicationUserReadModel> builder)
     {
         builder.ToTable("Users");
 
         builder.HasKey(u => u.Id);
 
         builder
-            .HasMany(u => u.Areas)
-            .WithOne(sa => sa.User);
+            .HasOne(u => u.Role)
+            .WithMany(r => r.Users);
+    }
+    
+    public void Configure(EntityTypeBuilder<RoleReadModel> builder)
+    {
+        builder.ToTable("Roles");
+        builder.HasKey(r => r.Id);
     }
 
     public void Configure(EntityTypeBuilder<StudyAreaReadModel> builder)
@@ -28,8 +35,8 @@ public class ReadDbContextConfiguration
         builder.HasKey(sa => sa.Id);
 
         builder
-            .HasMany(sa => sa.Goals)
-            .WithOne(sg => sg.StudyArea);
+            .HasOne(sa => sa.ApplicationUser)
+            .WithMany(u => u.StudyAreas);
     }
 
     public void Configure(EntityTypeBuilder<StudyGoalReadModel> builder)
@@ -39,14 +46,18 @@ public class ReadDbContextConfiguration
         builder.HasKey(sg => sg.Id);
 
         builder
-            .HasMany(sg => sg.Pomodoros)
-            .WithOne(p => p.StudyGoal);
+            .HasOne(sg => sg.StudyArea)
+            .WithMany(sa => sa.StudyGoals);
     }
 
     public void Configure(EntityTypeBuilder<PomodoroReadModel> builder)
     {
         builder.ToTable("Pomodoros");
-
+        
         builder.HasKey(p => p.Id);
+
+        builder
+            .HasOne(p => p.StudyGoal)
+            .WithMany(sg => sg.Pomodoros);
     }
 }

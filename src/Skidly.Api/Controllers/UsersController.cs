@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Skidly.Application.DTOs;
-using Skidly.Application.Users.CreateUser;
 using Skidly.Application.Users.GetUser;
+using Skidly.Application.Users.RegisterUser;
 using Skidly.Shared.Abstractions.API;
 
 namespace Skidly.Api.Controllers;
@@ -22,7 +22,7 @@ public sealed class UsersController : ApiController
     }
 
     [HttpPost]
-    public async Task<IResult> RegisterUser([FromBody] CreateUser request, CancellationToken cancellationToken)
+    public async Task<IResult> RegisterUser([FromBody] RegisterUser request, CancellationToken cancellationToken)
     {
         await Sender.Send(request, cancellationToken);
         return Results.Created($"/api/users/{request.Id}", null);

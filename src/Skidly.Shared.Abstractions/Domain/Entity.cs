@@ -2,13 +2,13 @@
 
 public abstract class Entity : IEquatable<Entity>
 {
-    private readonly List<DomainEvent> _events = new();
+    private readonly List<IDomainEvent> _events = new();
     
     public Guid Id { get; init; }
     
-    public IReadOnlyCollection<DomainEvent> Events => _events;
+    public IReadOnlyCollection<IDomainEvent> Events => _events;
 
-    protected void AddEvent(DomainEvent domainEvent) 
+    protected void AddEvent(IDomainEvent domainEvent) 
         => _events.Add(domainEvent);
 
     public void ClearEvents() => _events.Clear(); 

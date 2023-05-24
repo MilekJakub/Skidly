@@ -1,4 +1,5 @@
-﻿using Skidly.Domain.Entities;
+﻿using Skidly.Domain.Aggregates;
+using Skidly.Domain.Entities;
 using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.Repositories;

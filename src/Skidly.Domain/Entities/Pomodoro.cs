@@ -1,5 +1,7 @@
-﻿using Skidly.Domain.Events;
+﻿using Skidly.Domain.Aggregates;
+using Skidly.Domain.Events.Pomodoro;
 using Skidly.Domain.ValueObjects;
+using Skidly.Domain.ValueObjects.Pomodoro;
 using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.Entities;
@@ -25,6 +27,7 @@ public sealed class Pomodoro : Entity
     public DateTime? StartTime { get; private set; }
     public DateTime? FinishTime { get; private set; }
     public bool IsFinished { get; private set; }
+    public StudyGoal Goal { get; set; }
 
     public void ChangeTopic(PomodoroTopic topic)
     {
