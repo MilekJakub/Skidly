@@ -1,4 +1,5 @@
-﻿using Skidly.Shared.Abstractions.Domain;
+﻿using Skidly.Domain.Exceptions.ApplicationUser;
+using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.ValueObjects.ApplicationUser;
 
@@ -16,7 +17,7 @@ public class DateOfBirth : ValueObject
         
         if (validDate > DateTime.Now)
         {
-            throw new Exception("InvalidBirthDateException()");
+            throw new InvalidBirthDateException(validDate.ToString());
         }
 
         Value = validDate;

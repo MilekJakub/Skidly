@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Skidly.Api;
+using Skidly.Api.Middleware;
 using Skidly.Infrastructure;
 using Skidly.Infrastructure.EntityFramework;
 
@@ -12,7 +13,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 AddSwaggerDoc(builder.Services);
 
 builder.Services.AddMediatR(cfg => {
-    cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly);
+    cfg.RegisterServicesFromAssembly(Skidly.Application.AssemblyReference.Assembly);
+    cfg.RegisterServicesFromAssembly(Skidly.Infrastructure.AssemblyReference.Assembly);
 });
 
 builder.Services.AddControllers();
@@ -22,6 +24,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -9,6 +9,7 @@ using Skidly.Application.Services;
 using Skidly.Application.Users.LoginUser;
 using Skidly.Application.Users.RegisterUser;
 using Skidly.Domain.Aggregates;
+using Skidly.Domain.Exceptions.ApplicationUser;
 
 namespace Skidly.Infrastructure.Identity.Services;
 
@@ -34,14 +35,14 @@ public class AuthService : IAuthService
 
         if (user is null)
         {
-            throw new Exception($"The user with username '{request.Username}' was not found");
+            throw new UserWithUsernameNotFoundException(request.Username);
         }
 
         var signInResult = await _signInManager.PasswordSignInAsync(request.Username, request.Password, false, false);
 
         if (!signInResult.Succeeded)
         {
-            throw new Exception("Invalid username or password.");
+            throw new InvalidCredentialsException();
         }
 
         var jwtSecurityToken = await GenerateToken(user, authSettings);
@@ -63,14 +64,14 @@ public class AuthService : IAuthService
 
         if (existingUser is not null)
         {
-            throw new Exception($"Username '{request.UserName}' already exists.");
+            throw new UsernameAlreadyExistsException(request.UserName);
         }
         
         var existingEmail = await _userManager.FindByEmailAsync(request.Email);
         
         if (existingEmail is not null)
         {
-            throw new Exception($"Email {request.Email } already exists.");
+            throw new EmailAlreadyExistsException(request.Email);
         }
 
         var user = new ApplicationUser(request.Fullname, request.DateOfBirth, request.Country)
@@ -96,12 +97,7 @@ public class AuthService : IAuthService
         var userClaims = await _userManager.GetClaimsAsync(user);
         var roles = await _userManager.GetRolesAsync(user);
 
-        var roleClaims = new List<Claim>();
-
-        for (int i = 0; i < roles.Count; i++)
-        {
-            roleClaims.Add(new Claim(ClaimTypes.Role, roles[i]));
-        }
+        var roleClaims = roles.Select(role => new Claim(ClaimTypes.Role, role)).ToList();
 
         var claims = new[]
         {

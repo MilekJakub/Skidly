@@ -1,4 +1,5 @@
-﻿using Skidly.Shared.Abstractions.Domain;
+﻿using Skidly.Domain.Exceptions.Role;
+using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.ValueObjects.Role;
 
@@ -13,12 +14,12 @@ public class RoleName : ValueObject
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            throw new Exception("EmptyRoleNameException()");
+            throw new EmptyRoleNameException();
         }
 
         if (name.Length > 25)
         {
-            throw new Exception("RoleNameTooLongException()");
+            throw new RoleNameTooLongException(name);
         }
 
         Name = name;

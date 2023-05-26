@@ -1,4 +1,5 @@
-﻿using Skidly.Shared.Abstractions.Domain;
+﻿using Skidly.Domain.Exceptions.ApplicationUser;
+using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.ValueObjects.ApplicationUser;
 
@@ -13,7 +14,7 @@ public class Fullname : ValueObject
     {
         if (fullname.Length > 100)
         {
-            throw new Exception("FullnameTooLongException");
+            throw new FullnameTooLongException(fullname);
         }
 
         Value = fullname;

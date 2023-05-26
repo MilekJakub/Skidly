@@ -12,10 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="Pomodoros\" />
-    <Folder Include="StudyAreas\" />
-    <Folder Include="StudyGoals\" />
+    <Folder Include="Pomodoros\CreatePomodoro\" />
+    <Folder Include="Pomodoros\GetPomodoro\" />
   </ItemGroup>
 
   <ItemGroup>

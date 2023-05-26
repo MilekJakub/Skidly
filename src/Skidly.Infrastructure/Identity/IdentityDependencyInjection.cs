@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Skidly.Application.Services;
 using Skidly.Domain.Aggregates;
+using Skidly.Infrastructure.Identity.Repositories;
 using Skidly.Infrastructure.Identity.Services;
 
 namespace Skidly.Infrastructure.Identity;
@@ -15,7 +16,7 @@ public static class IdentityDependencyInjection
     public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IAuthService, AuthService>();
-        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IUserRepository, UserRepository>();
         
         var authSettings = new AuthSettings();
         configuration.GetSection("Authorization").Bind(authSettings);

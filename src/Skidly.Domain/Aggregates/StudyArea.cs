@@ -10,6 +10,8 @@ public sealed class StudyArea : AbstractEntity, IAggregateRoot
     private readonly List<StudyGoal> _goals = new();
     private StudyAreaName _name;
     private StudyAreaDescription _description;
+    
+    private string _userId;
     private ApplicationUser _user;
 
     private StudyArea()
@@ -18,19 +20,24 @@ public sealed class StudyArea : AbstractEntity, IAggregateRoot
     }
 
     public StudyArea(
+        Guid id,
         StudyAreaName name,
         StudyAreaDescription description,
         ApplicationUser user)
     {
+        Id = id;
         _name = name;
         _description = description;
+        
+        _user = user;
+        _userId = user.Id;
         
         AddEvent(new StudyAreaCreatedEvent(this));
     }
 
     public StudyAreaName Name => _name;
     public StudyAreaDescription Description => _description;
-    public ApplicationUser User => _user;
+    
     public IReadOnlyCollection<StudyGoal> Goals => _goals;
 
     public TimeSpan TotalStudyingTime
@@ -47,7 +54,12 @@ public sealed class StudyArea : AbstractEntity, IAggregateRoot
             return total;
         }
     }
-    
+
+    public string GetUserId()
+    {
+        return _userId;
+    }
+
     public void AddGoal(StudyGoal goal)
     {
         var alreadyExists = _goals.Any(sg => sg.Name == goal.Name);

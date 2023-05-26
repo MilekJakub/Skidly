@@ -1,4 +1,5 @@
 ﻿using Skidly.Domain.Constants;
+using Skidly.Domain.Exceptions.ApplicationUser;
 using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.ValueObjects.ApplicationUser;
@@ -14,14 +15,14 @@ public class Country : ValueObject
     {
         if (string.IsNullOrWhiteSpace(code))
         {
-            throw new Exception("EmptyCountryNameException()");
+            throw new EmptyCountryNameException();
         }
         
         var countries = CountriesConstants.Countries;
         
         if (!countries.ContainsKey(code))
         {
-            throw new Exception("InvalidCountryException()");
+            throw new InvalidCountryCodeException(code);
         }
 
         var country = countries[code];

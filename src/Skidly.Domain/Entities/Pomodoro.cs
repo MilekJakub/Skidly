@@ -15,6 +15,7 @@ public sealed class Pomodoro : AbstractEntity
     private DateTime? _startTime;
     private DateTime? _finishTime;
     private bool _isFinished;
+    private Guid _goalId;
     private readonly StudyGoal _goal;
     
     private Pomodoro()
@@ -37,6 +38,7 @@ public sealed class Pomodoro : AbstractEntity
         _startTime = startTime;
         _finishTime = finishTime;
         _isFinished = isFinished;
+        _goalId = goal.Id;
         _goal = goal;
 
         AddEvent(new PomodoroCreatedEvent(this));
@@ -48,7 +50,11 @@ public sealed class Pomodoro : AbstractEntity
     public DateTime? StartTime => _startTime;
     public DateTime? FinishTime => _finishTime;
     public bool IsFinished => _isFinished;
-    public StudyGoal Goal => _goal;
+
+    public Guid GetGoalId()
+    {
+        return _goalId;
+    }
 
     public void ChangeTopic(PomodoroTopic topic)
     {

@@ -16,14 +16,12 @@ public static class Seeder
     {
         using var scope = app.ApplicationServices.CreateScope();
         
-        var writeDbContext = scope.ServiceProvider.GetService<WriteDbContext>();
-        var readDbContext = scope.ServiceProvider.GetService<ReadDbContext>();
+        var writeDbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
         var identityDbContext = scope.ServiceProvider.GetService<ApplicationIdentityDbContext>();
         var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
         var roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
 
         if (writeDbContext == null
-            || readDbContext == null
             || identityDbContext == null
             || userManager == null
             || roleManager == null)
@@ -31,11 +29,11 @@ public static class Seeder
             throw new ExternalException("Error occured while trying to seed data. Cannot get required services.");
         }
 
-        await readDbContext.Database.MigrateAsync();
-        await readDbContext.Database.EnsureCreatedAsync();
-
         await identityDbContext.Database.MigrateAsync();
         await identityDbContext.Database.EnsureCreatedAsync();
+        
+        await writeDbContext.Database.MigrateAsync();
+        await writeDbContext.Database.EnsureCreatedAsync();
         
         if (await roleManager.Roles.AnyAsync() == false)
         {

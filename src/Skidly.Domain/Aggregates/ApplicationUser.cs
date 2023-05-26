@@ -6,9 +6,9 @@ namespace Skidly.Domain.Aggregates;
 
 public sealed class ApplicationUser : AbstractIdentityUser
 {
-    private Fullname? _fullname;
-    private DateOfBirth? _dateOfBirth;
-    private Country? _country;
+    private readonly Fullname? _fullname;
+    private readonly DateOfBirth? _dateOfBirth;
+    private readonly Country? _country;
     private readonly List<StudyArea> _areas = new();
 
     private ApplicationUser()
@@ -26,7 +26,7 @@ public sealed class ApplicationUser : AbstractIdentityUser
     public Fullname? Fullname => _fullname;
     public DateOfBirth? DateOfBirth => _dateOfBirth;
     public Country? Country => _country;
-    public IReadOnlyCollection<StudyArea> StudyAreas => _areas;
+    public IReadOnlyCollection<StudyArea> StudyAreas { get; set; }
     
     public TimeSpan TotalStudyTime
     {

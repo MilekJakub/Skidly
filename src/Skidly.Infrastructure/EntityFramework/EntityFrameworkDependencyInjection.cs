@@ -17,12 +17,7 @@ public static class EntityFrameworkDependencyInjection
         services.AddScoped<IStudyAreaRepository, StudyAreaRepository>();
         services.AddScoped<IStudyGoalRepository, StudyGoalRepository>();
         
-        services.AddDbContext<ReadDbContext>(builder =>
-        {
-            builder.UseSqlServer(configuration.GetConnectionString("Skidly-Main"));
-        });
-        
-        services.AddDbContext<WriteDbContext>(builder =>
+        services.AddDbContext<ApplicationDbContext>(builder =>
         {
             builder.UseSqlServer(configuration.GetConnectionString("Skidly-Main"));
         });

@@ -19,14 +19,14 @@ public sealed class AuthController : ApiController
         _authService = authService;
     }
 
-    [HttpPost("/register")]
+    [HttpPost("register")]
     public async Task<IResult> RegisterUser([FromBody] RegisterUserRequest request, CancellationToken cancellationToken)
     {
         var response = await _authService.Register(request, cancellationToken);
         return Results.Created($"/api/users/{response.UserId}", null);
     }
 
-    [HttpPost("/login")]
+    [HttpPost("login")]
     public async Task<IResult> Login([FromBody] LoginUserRequest request, CancellationToken cancellationToken)
     {
         return Results.Ok(await _authService.Login(request, cancellationToken));

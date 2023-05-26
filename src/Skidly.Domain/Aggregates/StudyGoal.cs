@@ -8,8 +8,19 @@ using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.Aggregates;
 
-public sealed class StudyGoal : AbstractEntity, IAggregateRoot
+public class StudyGoal : AbstractEntity, IAggregateRoot
 {
+    
+    private StudyGoalName _name;
+    private StudyGoalDescription _description;
+    private StudyGoalCategory _category;
+    private byte _priority;
+    private TimeSpan? _expectedLearningTime;
+    private Deadline? _deadline;
+    private bool _isAchieved;
+    
+    private StudyArea _area;
+    private Guid _areaId;
     private readonly List<Pomodoro> _pomodoros = new();
 
     private StudyGoal()
@@ -18,33 +29,30 @@ public sealed class StudyGoal : AbstractEntity, IAggregateRoot
     }
     
     public StudyGoal(
-        StudyGoalName name,
-        StudyGoalDescription description,
-        StudyGoalCategory category,
-        GoalPriority priority,
-        TimeSpan expectedLearningTime,
-        Deadline deadline,
-        bool isAchieved)
+        Guid id,
+        string name,
+        string description,
+        string category,
+        byte priority,
+        TimeSpan? expectedLearningTime,
+        DateTime? deadline,
+        bool isAchieved,
+        StudyArea area,
+        Guid areaId)
     {
-        _name = name;
-        _description = description;
-        _category = category;
-        _priority = priority;
-        _expectedLearningTime  ??= expectedLearningTime;
-        _deadline ??= deadline;
+        Id = id;
+        _name = new StudyGoalName(name);
+        _description = new StudyGoalDescription(description);
+        _category =  (StudyGoalCategory) Enum.Parse(typeof(StudyGoalCategory), category);
+        _priority = new GoalPriority(priority);
+        _expectedLearningTime  = expectedLearningTime;
+        _deadline = deadline is null ? null : new Deadline(deadline.Value);
         _isAchieved = isAchieved;
+        _area = area;
+        _areaId = areaId;
         
         AddEvent(new StudyGoalCreatedEvent(this));
     }
-
-    private StudyGoalName _name;
-    private StudyGoalDescription _description;
-    private StudyGoalCategory _category;
-    private byte _priority;
-    private TimeSpan? _expectedLearningTime;
-    private Deadline? _deadline;
-    private bool _isAchieved;
-    private StudyArea _area;
 
     public StudyGoalName Name => _name;
     public StudyGoalDescription Description => _description;
@@ -53,8 +61,8 @@ public sealed class StudyGoal : AbstractEntity, IAggregateRoot
     public TimeSpan? ExpectedLearningTime => _expectedLearningTime;
     public Deadline? Deadline => _deadline;
     public bool IsAchieved => _isAchieved;
-    public StudyArea Area => _area;
-    public IReadOnlyCollection<Pomodoro> Pomodoros => _pomodoros;
+
+    public virtual IReadOnlyCollection<Pomodoro> Pomodoros => _pomodoros;
     
     public TimeSpan TimeSpentStudying
     {
@@ -68,6 +76,11 @@ public sealed class StudyGoal : AbstractEntity, IAggregateRoot
 
             return total;
         }
+    }
+
+    public Guid GetAreaId()
+    {
+        return _areaId;
     }
 
     internal void ChangeName(StudyGoalName name)

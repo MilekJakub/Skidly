@@ -7,21 +7,21 @@ namespace Skidly.Infrastructure.EntityFramework.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly WriteDbContext _writeDbContext;
+    private readonly ApplicationDbContext _applicationDbContext;
 
-    public UnitOfWork(WriteDbContext writeDbContext)
+    public UnitOfWork(ApplicationDbContext applicationDbContext)
     {
-        _writeDbContext = writeDbContext;
+        _applicationDbContext = applicationDbContext;
     }
 
     public Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        return _writeDbContext.SaveChangesAsync(cancellationToken);
+        return _applicationDbContext.SaveChangesAsync(cancellationToken);
     }
 
     public IDbTransaction BeginTransaction()
     {
-        var transaction = _writeDbContext.Database.BeginTransaction();
+        var transaction = _applicationDbContext.Database.BeginTransaction();
 
         return transaction.GetDbTransaction();
     }
