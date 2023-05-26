@@ -3,4 +3,4 @@ using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.Events.StudyArea;
 
-public sealed record AreaNameUpdatedEvent(Aggregates.StudyArea StudyArea, AreaName AreaName) : DomainEvent;
+public sealed record AreaNameUpdatedEvent(Aggregates.StudyArea StudyArea, StudyAreaName StudyAreaName) : DomainEvent;

@@ -19,8 +19,6 @@ public class ReadDbContext : DbContext
     {
         var configuration = new ReadDbContextConfiguration();
 
-        modelBuilder.ApplyConfiguration<ApplicationUserReadModel>(configuration);
-        modelBuilder.ApplyConfiguration<RoleReadModel>(configuration);
         modelBuilder.ApplyConfiguration<StudyAreaReadModel>(configuration);
         modelBuilder.ApplyConfiguration<StudyGoalReadModel>(configuration);
         modelBuilder.ApplyConfiguration<PomodoroReadModel>(configuration);

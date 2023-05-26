@@ -5,7 +5,11 @@ namespace Skidly.Domain.ValueObjects.Pomodoro;
 
 public class PomodoroTopic : ValueObject
 {
-    
+    private PomodoroTopic()
+    {
+        // For Entity Framework
+    }
+
     public PomodoroTopic(string name)
     {
         if (string.IsNullOrWhiteSpace(name))

@@ -8,8 +8,8 @@ public static class WriteModelMapper
     public static UserDto UserDto(ApplicationUser user)
     {
         return new UserDto(
-            user.Username.Value,
-            user.Email.Value,
+            user.UserName,
+            user.Email,
             user?.Fullname?.ToString(),
             user?.DateOfBirth?.ToString(),
             user?.Country?.Name);

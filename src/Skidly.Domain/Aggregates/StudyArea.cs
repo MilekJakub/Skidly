@@ -5,9 +5,12 @@ using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.Aggregates;
 
-public sealed class StudyArea : Entity, IAggregateRoot
+public sealed class StudyArea : AbstractEntity, IAggregateRoot
 {
     private readonly List<StudyGoal> _goals = new();
+    private StudyAreaName _name;
+    private StudyAreaDescription _description;
+    private ApplicationUser _user;
 
     private StudyArea()
     {
@@ -15,21 +18,22 @@ public sealed class StudyArea : Entity, IAggregateRoot
     }
 
     public StudyArea(
-        AreaName name,
-        AreaDescription description)
+        StudyAreaName name,
+        StudyAreaDescription description,
+        ApplicationUser user)
     {
-        Name = name;
-        Description = description;
+        _name = name;
+        _description = description;
         
         AddEvent(new StudyAreaCreatedEvent(this));
     }
-    
-    public AreaName Name { get; private set; }
-    public AreaDescription Description { get; private set; }
-    public IReadOnlyCollection<StudyGoal> Goals => _goals;
-    public ApplicationUser User { get; set; }
 
-    public TimeSpan TimeSpentStudying
+    public StudyAreaName Name => _name;
+    public StudyAreaDescription Description => _description;
+    public ApplicationUser User => _user;
+    public IReadOnlyCollection<StudyGoal> Goals => _goals;
+
+    public TimeSpan TotalStudyingTime
     {
         get
         {
@@ -41,11 +45,6 @@ public sealed class StudyArea : Entity, IAggregateRoot
             }
 
             return total;
-        }
-
-        private set
-        {
-            
         }
     }
     
@@ -70,15 +69,15 @@ public sealed class StudyArea : Entity, IAggregateRoot
         AddEvent(new GoalRemovedEvent(this, goal));
     }
 
-    public void ChangeName(AreaName name)
+    public void ChangeName(StudyAreaName name)
     {
-        Name = name;
+        _name = name;
         AddEvent(new AreaNameUpdatedEvent(this, Name));
     }
 
-    public void ChangeDescription(AreaDescription description)
+    public void ChangeDescription(StudyAreaDescription description)
     {
-        Description = description;
+        _description = description;
         AddEvent(new AreaDescriptionUpdatedEvent(this, Description));
     }
 

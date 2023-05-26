@@ -7,7 +7,7 @@ using Skidly.Shared.Abstractions.Queries;
 
 namespace Skidly.Infrastructure.EntityFramework.Queries;
 
-public class GetUserHandler : IQueryHandler<GetUser, UserDto>
+public class GetUserHandler : IQueryHandler<GetUserRequest, UserDto>
 {
     private readonly DbSet<ApplicationUserReadModel> _users;
 
@@ -16,9 +16,9 @@ public class GetUserHandler : IQueryHandler<GetUser, UserDto>
         _users = users;
     }
 
-    public async Task<UserDto> Handle(GetUser request, CancellationToken cancellationToken)
+    public async Task<UserDto> Handle(GetUserRequest request, CancellationToken cancellationToken)
     {
-        var user = await _users.SingleOrDefaultAsync(u => request.Id == u.Id);
+        var user = await _users.SingleOrDefaultAsync(u => request.Id == u.Id, cancellationToken: cancellationToken);
 
         if (user is null)
         {

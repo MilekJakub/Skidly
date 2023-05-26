@@ -1,7 +1,7 @@
 ﻿namespace Skidly.Application.DTOs;
 
 public record UserDto(
-    string Username,
+    string UserName,
     string Email,
     string? Fullname,
     string? DateOfBirth,

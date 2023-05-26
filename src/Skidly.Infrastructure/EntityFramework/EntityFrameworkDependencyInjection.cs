@@ -14,8 +14,6 @@ public static class EntityFrameworkDependencyInjection
     public static IServiceCollection AddEntityFrameworkServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
-        services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IStudyAreaRepository, StudyAreaRepository>();
         services.AddScoped<IStudyGoalRepository, StudyGoalRepository>();
         

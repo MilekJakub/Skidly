@@ -5,6 +5,10 @@ namespace Skidly.Domain.ValueObjects.StudyGoal;
 
 public class Deadline : ValueObject
 {
+    private Deadline()
+    {
+        // For Entity Framework
+    }
     
     public Deadline(DateTime deadline)
     {

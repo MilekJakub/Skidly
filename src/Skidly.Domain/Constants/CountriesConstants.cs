@@ -1,8 +1,8 @@
 ﻿namespace Skidly.Domain.Constants;
 
-public static class Consts
+public static class CountriesConstants
 {
-    public static Dictionary<string, string> Countries => new Dictionary<string, string>()
+    public static Dictionary<string, string> Countries => new()
     {
         {"AD", "Andorra"},
         {"AE", "United Arab Emirates"},

@@ -3,4 +3,4 @@ using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.Events.StudyGoal;
 
-public sealed record GoalNameUpdatedEvent(Aggregates.StudyGoal StudyGoal, GoalName GoalName) : DomainEvent;
+public sealed record GoalNameUpdatedEvent(Aggregates.StudyGoal StudyGoal, StudyGoalName StudyGoalName) : DomainEvent;

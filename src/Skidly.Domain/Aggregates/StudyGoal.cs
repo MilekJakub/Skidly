@@ -8,7 +8,7 @@ using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.Aggregates;
 
-public sealed class StudyGoal : Entity, IAggregateRoot
+public sealed class StudyGoal : AbstractEntity, IAggregateRoot
 {
     private readonly List<Pomodoro> _pomodoros = new();
 
@@ -18,34 +18,43 @@ public sealed class StudyGoal : Entity, IAggregateRoot
     }
     
     public StudyGoal(
-        GoalName name,
-        GoalDescription description,
-        GoalCategory category,
+        StudyGoalName name,
+        StudyGoalDescription description,
+        StudyGoalCategory category,
         GoalPriority priority,
         TimeSpan expectedLearningTime,
         Deadline deadline,
         bool isAchieved)
     {
-        Name = name;
-        Description = description;
-        Category = category;
-        Priority = priority;
-        ExpectedLearningTime  ??= expectedLearningTime;
-        Deadline ??= deadline;
-        IsAchieved = isAchieved;
+        _name = name;
+        _description = description;
+        _category = category;
+        _priority = priority;
+        _expectedLearningTime  ??= expectedLearningTime;
+        _deadline ??= deadline;
+        _isAchieved = isAchieved;
         
         AddEvent(new StudyGoalCreatedEvent(this));
     }
-    
-    public GoalName Name { get; private set; }
-    public GoalDescription Description { get; private set; }
-    public GoalCategory Category { get; private set; }
-    public byte Priority { get; private set; }
-    public TimeSpan? ExpectedLearningTime { get; private set; }
-    public Deadline? Deadline { get; private set; }
-    public bool IsAchieved { get; private set; }
+
+    private StudyGoalName _name;
+    private StudyGoalDescription _description;
+    private StudyGoalCategory _category;
+    private byte _priority;
+    private TimeSpan? _expectedLearningTime;
+    private Deadline? _deadline;
+    private bool _isAchieved;
+    private StudyArea _area;
+
+    public StudyGoalName Name => _name;
+    public StudyGoalDescription Description => _description;
+    public StudyGoalCategory Category => _category;
+    public byte Priority => _priority;
+    public TimeSpan? ExpectedLearningTime => _expectedLearningTime;
+    public Deadline? Deadline => _deadline;
+    public bool IsAchieved => _isAchieved;
+    public StudyArea Area => _area;
     public IReadOnlyCollection<Pomodoro> Pomodoros => _pomodoros;
-    public StudyArea Area { get; set; }
     
     public TimeSpan TimeSpentStudying
     {
@@ -59,46 +68,41 @@ public sealed class StudyGoal : Entity, IAggregateRoot
 
             return total;
         }
-
-        private set
-        {
-            
-        }
     }
 
-    internal void ChangeName(GoalName name)
+    internal void ChangeName(StudyGoalName name)
     {
-        Name = name;
+        _name = name;
         AddEvent(new GoalNameUpdatedEvent(this, Name));
     }
     
-    internal void ChangeDescription(GoalDescription description)
+    internal void ChangeDescription(StudyGoalDescription description)
     {
-        Description = description;
+        _description = description;
         AddEvent(new GoalDescriptionUpdatedEvent(this, Description));
     }
     
-    internal void ChangeCategory(GoalCategory category)
+    internal void ChangeCategory(StudyGoalCategory category)
     {
-        Category = category;
+        _category = category;
         AddEvent(new GoalCategoryUpdatedEvent(this, Category));
     }
 
     internal void ChangePriority(GoalPriority priority)
     {
-        Priority = priority;
+        _priority = priority;
         AddEvent(new GoalPriorityUpdatedEvent(this, Priority));
     }
 
     internal void ChangeExpectedTimeToLearn(TimeSpan expectedTime)
     {
-        ExpectedLearningTime = expectedTime;
+        _expectedLearningTime = expectedTime;
         AddEvent(new GoalExpectedTimeToLearnUpdatedEvent(this, ExpectedLearningTime.Value));
     }
 
     internal void ChangeDeadline(Deadline deadline)
     {
-        Deadline = deadline;
+        _deadline = deadline;
     }
 
     internal void MarkAsAchieved()
@@ -108,7 +112,7 @@ public sealed class StudyGoal : Entity, IAggregateRoot
             throw new GoalAlreadySetToAchievedException();
         }
         
-        IsAchieved = true;
+        _isAchieved = true;
         AddEvent(new GoalMarkedAsAchievedEvent(this, IsAchieved));
     }
 
@@ -119,7 +123,7 @@ public sealed class StudyGoal : Entity, IAggregateRoot
             throw new GoalAlreadySetToNotAchievedException();
         }
 
-        IsAchieved = false;
+        _isAchieved = false;
         AddEvent(new GoalMarkedAsNotAchievedEvent(this, IsAchieved));
     }
 

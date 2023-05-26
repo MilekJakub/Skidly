@@ -5,6 +5,11 @@ namespace Skidly.Domain.ValueObjects.StudyGoal;
 
 public class GoalPriority : ValueObject
 {
+    private GoalPriority()
+    {
+        // For Entity Framework
+    }
+    
     public GoalPriority(byte value)
     {
         if (value < 1 || value > 10)

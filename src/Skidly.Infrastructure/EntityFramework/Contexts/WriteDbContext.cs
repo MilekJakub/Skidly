@@ -11,8 +11,6 @@ public class WriteDbContext : DbContext
     {
     }
 
-    public DbSet<ApplicationUser> Users { get; set; }
-    public DbSet<Role> Roles { get; set; }
     public DbSet<StudyArea> StudyAreas { get; set; }
     public DbSet<StudyGoal> StudyGoals { get; set; }
     public DbSet<Pomodoro> Pomodoros { get; set; }
@@ -20,9 +18,7 @@ public class WriteDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         var configuration = new WriteDbContextConfiguration();
-
-        modelBuilder.ApplyConfiguration<ApplicationUser>(configuration);
-        modelBuilder.ApplyConfiguration<Role>(configuration);
+        
         modelBuilder.ApplyConfiguration<StudyArea>(configuration);
         modelBuilder.ApplyConfiguration<StudyGoal>(configuration);
         modelBuilder.ApplyConfiguration<Pomodoro>(configuration);

@@ -6,57 +6,78 @@ using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.Entities;
 
-public sealed class Pomodoro : Entity
+public sealed class Pomodoro : AbstractEntity
 {
+    
+    private PomodoroTopic _topic;
+    private TimeSpan _expectedDuration;
+    private TimeSpan _duration;
+    private DateTime? _startTime;
+    private DateTime? _finishTime;
+    private bool _isFinished;
+    private readonly StudyGoal _goal;
+    
     private Pomodoro()
     {
         // For Entity Framework
     }
     
-    public Pomodoro(PomodoroTopic topic, TimeSpan expectedDuration)
+    public Pomodoro(
+        PomodoroTopic topic,
+        TimeSpan expectedDuration,
+        TimeSpan duration,
+        DateTime? startTime,
+        DateTime? finishTime,
+        bool isFinished,
+        StudyGoal goal)
     {
-        Topic = topic;
-        ExpectedDuration = expectedDuration;
-        
+        _topic = topic;
+        _expectedDuration = expectedDuration;
+        _duration = duration;
+        _startTime = startTime;
+        _finishTime = finishTime;
+        _isFinished = isFinished;
+        _goal = goal;
+
         AddEvent(new PomodoroCreatedEvent(this));
     }
 
-    public PomodoroTopic Topic { get; private set; }
-    public TimeSpan ExpectedDuration { get; private set; }
-    public TimeSpan Duration { get; private set; }
-    public DateTime? StartTime { get; private set; }
-    public DateTime? FinishTime { get; private set; }
-    public bool IsFinished { get; private set; }
-    public StudyGoal Goal { get; set; }
+    public PomodoroTopic Topic => _topic;
+    public TimeSpan ExpectedDuration => _expectedDuration;
+    public TimeSpan Duration => _duration;
+    public DateTime? StartTime => _startTime;
+    public DateTime? FinishTime => _finishTime;
+    public bool IsFinished => _isFinished;
+    public StudyGoal Goal => _goal;
 
     public void ChangeTopic(PomodoroTopic topic)
     {
-        Topic = topic;
-        AddEvent(new PomodoroTopicUpdatedEvent(this, Topic));
+        _topic = topic;
+        AddEvent(new PomodoroTopicUpdatedEvent(this, _topic));
     }
 
     public void ChangeExpectedDuration(TimeSpan expectedDuration)
     {
-        ExpectedDuration = expectedDuration;
-        AddEvent(new PomodoroExpectedDurationUpdatedEvent(this, ExpectedDuration));
+        _expectedDuration = expectedDuration;
+        AddEvent(new PomodoroExpectedDurationUpdatedEvent(this, _expectedDuration));
     }
 
     public void AddTimeToDuration(TimeSpan duration)
     {
-        Duration = Duration.Add(duration);
-        AddEvent(new PomodoroDurationIncreasedEvent(this, Duration));
+        _duration = _duration.Add(duration);
+        AddEvent(new PomodoroDurationIncreasedEvent(this, _duration));
     }
 
     public void SetStartTime(DateTime startTime)
     {
-        StartTime = startTime;
-        AddEvent(new PomodoroStartTimeSetEvent(this, StartTime.Value));
+        _startTime = startTime;
+        AddEvent(new PomodoroStartTimeSetEvent(this, _startTime.Value));
     }
 
     public void SetEndTime(DateTime endTime)
     {
-        FinishTime = endTime;
-        IsFinished = true;
-        AddEvent(new PomodoroEndTimeSetEvent(this, FinishTime.Value));
+        _finishTime = endTime;
+        _isFinished = true;
+        AddEvent(new PomodoroEndTimeSetEvent(this, _finishTime.Value));
     }
 }

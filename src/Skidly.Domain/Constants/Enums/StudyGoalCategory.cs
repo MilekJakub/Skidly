@@ -1,6 +1,6 @@
 ﻿namespace Skidly.Domain.Constants;
 
-public enum GoalCategory
+public enum StudyGoalCategory
 {
     ShortTerm,
     LongTerm,

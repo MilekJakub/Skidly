@@ -1,17 +1,19 @@
-﻿namespace Skidly.Shared.Abstractions.Domain;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
-public abstract class Entity : IEquatable<Entity>
+namespace Skidly.Shared.Abstractions.Domain;
+
+[NotMapped]
+public class AbstractIdentityRole : IdentityRole, IEntity, IAggregateRoot
 {
     private readonly List<IDomainEvent> _events = new();
-    
-    public Guid Id { get; init; }
     
     public IReadOnlyCollection<IDomainEvent> Events => _events;
 
     protected void AddEvent(IDomainEvent domainEvent) 
         => _events.Add(domainEvent);
 
-    public void ClearEvents() => _events.Clear(); 
+    public void ClearEvents() => _events.Clear();
 
     public override bool Equals(object? obj)
     {
@@ -21,13 +23,13 @@ public abstract class Entity : IEquatable<Entity>
         if (obj.GetType() != GetType())
             return false;
 
-        if (obj is not Entity entity)
+        if (obj is not AbstractIdentityRole entity)
             return false;
 
         return entity.Id == Id;
     }
 
-    public bool Equals(Entity? other)
+    public bool Equals(AbstractIdentityRole? other)
     {
         if (other is null)
             return false;
@@ -38,11 +40,14 @@ public abstract class Entity : IEquatable<Entity>
         return other.Id == Id;
     }
 
-    public override int GetHashCode() => Id.GetHashCode();
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(_events, Id);
+    }
 
-    public static bool operator ==(Entity? first, Entity? second) 
+    public static bool operator ==(AbstractIdentityRole? first, AbstractIdentityRole? second) 
         => first is not null && second is not null && first.Equals(second);
 
-    public static bool operator !=(Entity? first, Entity? second) 
-        => !(first == second); 
+    public static bool operator !=(AbstractIdentityRole? first, AbstractIdentityRole? second) 
+        => !(first == second);
 }

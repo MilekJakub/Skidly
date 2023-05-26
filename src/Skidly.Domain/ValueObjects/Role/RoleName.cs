@@ -4,6 +4,11 @@ namespace Skidly.Domain.ValueObjects.Role;
 
 public class RoleName : ValueObject
 {
+    private RoleName()
+    {
+        // For Entity Framework
+    }
+    
     public RoleName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))

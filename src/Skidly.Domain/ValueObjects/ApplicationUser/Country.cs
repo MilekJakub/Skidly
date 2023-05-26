@@ -5,18 +5,29 @@ namespace Skidly.Domain.ValueObjects.ApplicationUser;
 
 public class Country : ValueObject
 {
-    public Country(string countryCode)
+    private Country()
     {
-        var countries = Consts.Countries;
-        if (!countries.ContainsKey(countryCode))
+        // For Entity Framework
+    }
+    
+    public Country(string code)
+    {
+        if (string.IsNullOrWhiteSpace(code))
+        {
+            throw new Exception("EmptyCountryNameException()");
+        }
+        
+        var countries = CountriesConstants.Countries;
+        
+        if (!countries.ContainsKey(code))
         {
             throw new Exception("InvalidCountryException()");
         }
 
-        var name = countries[countryCode];
-
-        Name = name;
-        Code = countryCode;
+        var country = countries[code];
+        
+        Name = country;
+        Code = code;
     }
 
     public string Code { get; init; }
@@ -27,4 +38,22 @@ public class Country : ValueObject
         yield return Code;
         yield return Name;
     }
+
+    public override string ToString()
+    {
+        return Code;
+    }
+
+    public string ToString(char format)
+    {
+        return format switch
+        {
+            'c' => Code,
+            'n' => Name,
+            _ => throw new ArgumentException("Invalid format")
+        };
+    }
+    
+    public static implicit operator string(Country country) => country.Code;
+    public static implicit operator Country(string code) => new(code);    
 }

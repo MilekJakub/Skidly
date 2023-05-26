@@ -3,15 +3,20 @@ using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.ValueObjects.StudyArea;
 
-public class AreaDescription : ValueObject
+public class StudyAreaName : ValueObject
 {
-    public AreaDescription(string name)
+    private StudyAreaName()
+    {
+        // For Entity Framework
+    }
+    
+    public StudyAreaName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new EmptyAreaDescriptionException();
+            throw new EmptyAreaNameException();
 
-        if (name.Length > 250)
-            throw new AreaDescriptionTooLongException();
+        if (name.Length > 25)
+            throw new AreaNameTooLongException();
 
         Value = name;
     }
@@ -23,8 +28,8 @@ public class AreaDescription : ValueObject
         yield return Value;
     }
     
-    public static implicit operator string(AreaDescription description) => description.Value;
-    public static implicit operator AreaDescription(string description) => new(description);
+    public static implicit operator string(StudyAreaName name) => name.Value;
+    public static implicit operator StudyAreaName(string name) => new(name);
 
     public override string ToString()
     {

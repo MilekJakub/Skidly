@@ -3,9 +3,14 @@ using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.ValueObjects.StudyGoal;
 
-public class GoalName : ValueObject
+public class StudyGoalName : ValueObject
 {
-    public GoalName(string name)
+    private StudyGoalName()
+    {
+        // For Entity Framework
+    }
+    
+    public StudyGoalName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new EmptyGoalNameException();
@@ -23,8 +28,8 @@ public class GoalName : ValueObject
         yield return Value;
     }
     
-    public static implicit operator string(GoalName name) => name.Value;
-    public static implicit operator GoalName(string name) => new(name);
+    public static implicit operator string(StudyGoalName name) => name.Value;
+    public static implicit operator StudyGoalName(string name) => new(name);
 
     public override string ToString()
     {

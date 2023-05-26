@@ -5,6 +5,10 @@ namespace Skidly.Domain.ValueObjects.ApplicationUser;
 
 public class Username : ValueObject
 {
+    private Username()
+    {
+        // For Entity Framework
+    }
     
     public Username(string name)
     {

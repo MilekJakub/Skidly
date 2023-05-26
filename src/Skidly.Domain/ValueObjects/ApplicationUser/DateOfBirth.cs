@@ -4,6 +4,11 @@ namespace Skidly.Domain.ValueObjects.ApplicationUser;
 
 public class DateOfBirth : ValueObject
 {
+    private DateOfBirth()
+    {
+        // For Entity Framework
+    }
+    
     public DateOfBirth(string date)
     {
 

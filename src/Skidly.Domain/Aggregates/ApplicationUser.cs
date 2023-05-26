@@ -4,44 +4,29 @@ using Skidly.Shared.Abstractions.Domain;
 
 namespace Skidly.Domain.Aggregates;
 
-public sealed class ApplicationUser : Entity, IAggregateRoot
+public sealed class ApplicationUser : AbstractIdentityUser
 {
-    private readonly List<StudyArea> _studyAreas = new();
+    private Fullname? _fullname;
+    private DateOfBirth? _dateOfBirth;
+    private Country? _country;
+    private readonly List<StudyArea> _areas = new();
 
     private ApplicationUser()
     {
         // For Entity Framework
     }
     
-    public ApplicationUser(
-        string username,
-        string email,
-        string? fullname,
-        string? dateOfBirth,
-        string? country)
+    public ApplicationUser(string? fullname = null, string? dateOfBirth = null, string? country = null)
     {
-        var validUsername = new Username(username);
-        var validEmail = new EmailAddress(email);
-        var validFullname = fullname != null ? new Fullname(fullname) : null;
-        var validDateOfBirth = dateOfBirth != null ? new DateOfBirth(dateOfBirth) : null;
-        var validCountry = country != null ? new Country(country) : null;
-        
-        Username = validUsername;
-        Email = validEmail;
-        Fullname ??= validFullname;
-        DateOfBirth ??= validDateOfBirth;
-        Country ??= validCountry;
+        _fullname = fullname is null ? null : new Fullname(fullname);
+        _dateOfBirth = dateOfBirth is null ? null : new DateOfBirth(dateOfBirth);
+        _country = country is null ? null : new Country(country);
     }
 
-    public Username Username { get; private set; }
-    public EmailAddress Email { get; private set; }
-    public Fullname? Fullname { get; private set; }
-    public DateOfBirth? DateOfBirth { get; private set; }
-    public Country? Country { get; private set; }
-    public PasswordHash PasswordHash { get; private set; }
-    public Role Role { get; private set; }
-
-    public IReadOnlyCollection<StudyArea> StudyAreas => _studyAreas;
+    public Fullname? Fullname => _fullname;
+    public DateOfBirth? DateOfBirth => _dateOfBirth;
+    public Country? Country => _country;
+    public IReadOnlyCollection<StudyArea> StudyAreas => _areas;
     
     public TimeSpan TotalStudyTime
     {
@@ -51,35 +36,20 @@ public sealed class ApplicationUser : Entity, IAggregateRoot
 
             foreach (var studyArea in StudyAreas)
             {
-                total = total.Add(studyArea.TimeSpentStudying);
+                total = total.Add(studyArea.TotalStudyingTime);
             }
 
             return total;
         }
-
-        private set
-        {
-            
-        }
     }
 
-    public void SetPasswordHash(string hash)
-    {
-        PasswordHash = new PasswordHash(hash);
-    }
-
-    public void AddRole(Role role)
-    {
-        Role = role;
-    }
-    
     public void AddStudyArea(StudyArea area)
     {
-        if (_studyAreas.Any(sa => sa.Name == area.Name))
+        if (_areas.Any(sa => sa.Name == area.Name))
         {
             throw new AreaWithSameNameAlreadyExistException();
         }
         
-        _studyAreas.Add(area);
+        _areas.Add(area);
     }
 }
