@@ -6,13 +6,20 @@ The application is about choosing the areas in which we want to develop, setting
 goals to learn, tracking our progress and (possibly in the future) competing
 with other users.
 
+## Endpoints
+
+![Endpoints](./docs/endpoints.jpg)
+
+## Project Structure
+
+![Project Structure](./docs/project_structure.jpg)
+
 ## General
 General requirements and objectives of the project.
 
 ### Buzzwords
 - Clean Architecture
 - Domain-Driven Design
-- Test-Driven Development
 - CQRS
 - ASP.NET CORE
 - Entity Framework
