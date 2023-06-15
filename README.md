@@ -1,4 +1,4 @@
-# Skidly
+# Skidly (unfinished)
 
 ## Application to support learning.
 
